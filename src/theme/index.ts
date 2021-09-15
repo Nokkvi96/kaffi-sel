@@ -42,6 +42,10 @@ const theme = extendTheme({
       900: "#1f0000",
     },
   },
+  fonts: {
+    heading: "Neuton",
+    body: "Montserrat",
+  },
   components: {
     Button,
   },

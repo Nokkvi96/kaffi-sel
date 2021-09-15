@@ -14,14 +14,16 @@ export function ShoppingItems(): JSX.Element {
       id: 1,
       name: "Hamborgari",
       price: 1200,
-      description: "Ummm, mjög gott!",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse nisi augue, feugiat eget elit ac, commodo iaculis mi. Ut metus dui, lobortis et vestibulum eget, sollicitudin posuere urna.",
       imgUri: "https://via.placeholder.com/150",
     },
     {
       id: 2,
       name: "Pizza",
       price: 1250,
-      description: "Váá!",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse nisi augue, feugiat eget elit ac, commodo iaculis mi. Ut metus dui, lobortis et vestibulum eget, sollicitudin posuere urna.",
       imgUri: "https://via.placeholder.com/150",
     },
     {

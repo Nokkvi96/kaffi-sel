@@ -1,15 +1,21 @@
 import NextLink from "next/link";
 import {
   Box,
-  Button,
   Container,
   Stack,
   Flex,
   Heading,
   Link,
+  Menu,
+  MenuButton,
+  Icon,
+  MenuList,
+  MenuItem,
 } from "@chakra-ui/react";
 
 import { useRecoilValue } from "recoil";
+
+import Cart from "./Cart";
 
 import { MdShoppingCart } from "react-icons/md";
 
@@ -57,15 +63,7 @@ export function Header(): JSX.Element {
                 </Heading>
               </Link>
             </NextLink>
-            <Button
-              bg="inherit"
-              _hover={{ scale: "1.5" }}
-              rounded="full"
-              color="white"
-              padding="1"
-            >
-              <MdShoppingCart /> {!(unique > 0) ? "" : unique}
-            </Button>
+            <Cart />
           </Stack>
         </Flex>
       </Container>

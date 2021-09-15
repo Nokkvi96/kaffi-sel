@@ -1,11 +1,12 @@
 import {
   Box,
   Button,
-  Stack,
+  Flex,
   Heading,
   Text,
   Image,
   AspectRatio,
+  Spacer,
 } from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
 
@@ -35,21 +36,28 @@ export default function Item({ data }: IProps): any {
       alignItems="center"
       boxShadow="md"
     >
-      <Stack direction="column" spacing={2}>
-        <AspectRatio ratio={4 / 3}>
+      <Flex direction="column">
+        <AspectRatio ratio={4 / 3} mb={3}>
           <Image
             objectFit="cover"
             src="https://via.placeholder.com/300"
             alt="Placeholder"
           />
         </AspectRatio>
-        <Heading as="h2" size="lg">
-          {data.name}
+        <Heading as="h2" size="lg" pb={1}>
+          {data.id}. {data.name}
         </Heading>
-        <Text size="md">{data.price} kr</Text>
-        <Text size="md">{data.description}</Text>
-        <Button onClick={addToCart}>Bæta við í körfu</Button>
-      </Stack>
+        <Text size="md" pb={2}>
+          {data.price} kr
+        </Text>
+        <Text size="md" mb={3} noOfLines={3}>
+          {data.description}
+        </Text>
+        <Spacer />
+        <Button onClick={addToCart} mt="auto">
+          Bæta við í körfu
+        </Button>
+      </Flex>
     </Box>
   );
 }
