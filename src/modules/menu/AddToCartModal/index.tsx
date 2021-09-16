@@ -58,6 +58,7 @@ export default function AddToCartModal({
       quantity,
       customerNote: note,
     });
+
     onClose();
   }
 

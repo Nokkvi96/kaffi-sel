@@ -1,17 +1,5 @@
 import NextLink from "next/link";
-import {
-  Box,
-  Container,
-  Stack,
-  Flex,
-  Heading,
-  Link,
-  Menu,
-  MenuButton,
-  Icon,
-  MenuList,
-  MenuItem,
-} from "@chakra-ui/react";
+import { Box, Container, Stack, Flex, Heading, Link } from "@chakra-ui/react";
 
 import { useRecoilValue } from "recoil";
 
@@ -30,17 +18,12 @@ export function Header(): JSX.Element {
     <Box
       as="nav"
       paddingY={[2, 4]}
-      bg="primary.800"
+      bg="primary"
       color="white"
       boxShadow="inner"
     >
       <Container maxW="container.xl">
-        <Flex
-          align="center"
-          justify="space-between"
-          wrap="wrap"
-          bg="primary.800"
-        >
+        <Flex align="center" justify="space-between" wrap="wrap" bg="primary">
           <NextLink href="/" passHref>
             <Link>
               <Heading as="h2" size="lg">

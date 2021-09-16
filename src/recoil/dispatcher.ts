@@ -39,7 +39,6 @@ export const createDispatcher = () => {
     ({ set }) =>
       (id: number, note = "") => {
         set(cartState, (oldCart: CartItem[]) => {
-          console.log(note);
           const index = oldCart.findIndex(
             // condition gæti breyst eftir ID
             (c) => c.id === id && c.customerNote === note
