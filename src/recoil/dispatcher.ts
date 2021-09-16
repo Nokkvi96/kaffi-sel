@@ -35,15 +35,24 @@ export const createDispatcher = () => {
     // showMessage(`${text} hefur verið bætt í körfu`);
   });
 
-  const removeFromCart = useRecoilCallback(({ set }) => (id: number) => {
-    set(cartState, (oldCart: CartItem[]) => {
-      const index = oldCart.findIndex(
-        // condition gæti breyst eftir ID
-        (c) => c.id === id && c.customerNote
-      );
-      return [...oldCart.slice(0, index), ...oldCart.slice(index + 1)];
-    });
-  });
+  const removeFromCart = useRecoilCallback(
+    ({ set }) =>
+      (id: number, note = "") => {
+        set(cartState, (oldCart: CartItem[]) => {
+          console.log(note);
+          const index = oldCart.findIndex(
+            // condition gæti breyst eftir ID
+            (c) => c.id === id && c.customerNote === note
+          );
+          console.log(index);
+          console.log(oldCart.slice(0, index));
+          console.log(oldCart.slice(index + 1));
+          if (index > -1) {
+            return [...oldCart.slice(0, index), ...oldCart.slice(index + 1)];
+          } else return oldCart;
+        });
+      }
+  );
 
   const clearCart = useRecoilCallback(({ reset }) => () => {
     reset(cartState);

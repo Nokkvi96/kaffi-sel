@@ -45,15 +45,22 @@ export default function Cart(): JSX.Element {
       <MenuList color="black">
         {cart.map((c) => (
           <MenuItem minH="3rem">
-            <Flex direction="column">
-              <Text>
-                {c.name} - {c.quantity}
-                <Button onClick={() => removeFromCart(c.id)}>X</Button>
+            <Flex
+              direction="row"
+              alignContent="center"
+              justifyContent="space-between"
+              width="100%"
+            >
+              <Text textAlign="center" isTruncated>
+                {c.name} ({c.quantity}) <br /> {c.customerNote}
               </Text>
+              <Button onClick={() => removeFromCart(c.id)}>X</Button>
             </Flex>
           </MenuItem>
         ))}
-        <Button onClick={clearCart}>Hreinsa körfu</Button>
+        <Button width="100%" onClick={clearCart}>
+          Hreinsa körfu
+        </Button>
       </MenuList>
     </Menu>
   );
