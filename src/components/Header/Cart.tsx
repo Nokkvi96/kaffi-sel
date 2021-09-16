@@ -1,4 +1,5 @@
 import {
+  Stack,
   Button,
   Menu,
   MenuButton,
@@ -23,8 +24,8 @@ export default function Cart(): JSX.Element {
   const [cart] = useRecoilState(cartState);
   const dispatcher = useRecoilValue(dispatcherState);
 
-  const removeFromCart = (id: number) => {
-    dispatcher?.removeFromCart(id);
+  const removeFromCart = (id: number, note: string) => {
+    dispatcher?.removeFromCart(id, note);
   };
 
   function clearCart() {
@@ -54,13 +55,18 @@ export default function Cart(): JSX.Element {
               <Text textAlign="center" isTruncated>
                 {c.name} ({c.quantity}) <br /> {c.customerNote}
               </Text>
-              <Button onClick={() => removeFromCart(c.id)}>X</Button>
+              <Button onClick={() => removeFromCart(c.id, c.customerNote)}>
+                X
+              </Button>
             </Flex>
           </MenuItem>
         ))}
-        <Button width="100%" onClick={clearCart}>
-          Hreinsa körfu
-        </Button>
+        <Stack direction="column" gap={2}>
+          <Button width="100%" onClick={clearCart}>
+            Hreinsa körfu
+          </Button>
+          <Button width="100%">Klára innkaup</Button>
+        </Stack>
       </MenuList>
     </Menu>
   );
