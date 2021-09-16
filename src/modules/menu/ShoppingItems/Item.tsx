@@ -8,21 +8,17 @@ import {
   AspectRatio,
   Spacer,
 } from "@chakra-ui/react";
-import { useRecoilValue } from "recoil";
-
-import { dispatcherState } from "@recoil/atoms";
 import { ShoppingItem } from "src/types";
 
 interface IProps {
+  parentCallback: any;
   data: ShoppingItem;
 }
 
-export default function Item({ data }: IProps): any {
-  const dispatcher = useRecoilValue(dispatcherState);
-
-  function addToCart() {
-    dispatcher?.addToCart({ ...data, quantity: 1, customerNote: "hahaha" });
-  }
+export default function Item({ parentCallback, data }: IProps): any {
+  const onClick = () => {
+    parentCallback(data);
+  };
 
   return (
     <Box
@@ -54,7 +50,7 @@ export default function Item({ data }: IProps): any {
           {data.description}
         </Text>
         <Spacer />
-        <Button onClick={addToCart} mt="auto">
+        <Button onClick={onClick} mt="auto">
           Bæta við í körfu
         </Button>
       </Flex>

@@ -1,12 +1,13 @@
-import { useRef, useEffect, useCallback } from "react";
-import { Center, Heading, SimpleGrid } from "@chakra-ui/react";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { Center, Heading, SimpleGrid, useDisclosure } from "@chakra-ui/react";
 
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 
-import { cartState, dispatcherState } from "@recoil/atoms";
+import { dispatcherState } from "@recoil/atoms";
 import { createDispatcher, Dispatcher } from "@recoil/dispatcher";
 
 import Item from "./Item";
+import AddToCartModal from "../AddToCartModal";
 
 export function ShoppingItems(): JSX.Element {
   const data = [
@@ -28,28 +29,34 @@ export function ShoppingItems(): JSX.Element {
     },
     {
       id: 3,
-      name: "Pizza",
+      name: "Pizza m/ sveppum",
       price: 1250,
       description: "Váá!",
       imgUri: "https://via.placeholder.com/150",
     },
     {
       id: 4,
-      name: "Pizza",
+      name: "Pizza m/ skinu og ananas",
       price: 1250,
       description: "Váá!",
       imgUri: "https://via.placeholder.com/150",
     },
     {
       id: 5,
-      name: "Pizza",
+      name: "Pizza m/ pepperoni",
       price: 1250,
       description: "Váá!",
       imgUri: "https://via.placeholder.com/150",
     },
   ];
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [cart] = useRecoilState(cartState);
+  const [selected, setSelected] = useState(data[0]);
+
+  const callback = useCallback((d) => {
+    setSelected(d);
+    onOpen();
+  }, []);
 
   const setDispatcher = useSetRecoilState(dispatcherState);
   const dispatcherRef = useRef<Dispatcher>(createDispatcher());
@@ -67,9 +74,12 @@ export function ShoppingItems(): JSX.Element {
       </Center>
       <SimpleGrid minChildWidth="22rem" gap={[4, 6, 8]}>
         {data.map((d) => (
-          <Item key={d.id} data={d} />
+          <Item key={d.id} parentCallback={callback} data={d} />
         ))}
       </SimpleGrid>
+      {isOpen && (
+        <AddToCartModal data={selected} isOpen={isOpen} onClose={onClose} />
+      )}
     </section>
   );
 }
