@@ -1,8 +1,16 @@
-import Image from "next/image";
+import { useEffect } from "react";
 
-import { Box, Container, Stack, Heading, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Container,
+  Stack,
+  Heading,
+  Text,
+  Image,
+} from "@chakra-ui/react";
 
-import img from "@public/plant.svg";
+// import img from "@public/plant.svg";
 
 interface IProps {
   heading: string;
@@ -10,7 +18,7 @@ interface IProps {
   bgColor?: string;
   textColor?: string;
   direction?: "row" | "row-reverse";
-  img?: string;
+  img: string;
 }
 
 export function Section({
@@ -19,8 +27,8 @@ export function Section({
   bgColor = "secondary",
   direction = "row",
   textColor = "white",
-}: // img,
-IProps) {
+  img,
+}: IProps) {
   return (
     <section>
       <Box py={[6, 8, 12]} bg={bgColor} color={textColor}>
