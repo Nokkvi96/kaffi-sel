@@ -1,3 +1,4 @@
+import NextLink from "next/link";
 import {
   Stack,
   Button,
@@ -65,7 +66,9 @@ export default function Cart(): JSX.Element {
           <Button width="100%" onClick={clearCart}>
             Hreinsa körfu
           </Button>
-          <Button width="100%">Klára innkaup</Button>
+          <NextLink href="/checkout">
+            <Button width="100%">Klára innkaup</Button>
+          </NextLink>
         </Stack>
       </MenuList>
     </Menu>
