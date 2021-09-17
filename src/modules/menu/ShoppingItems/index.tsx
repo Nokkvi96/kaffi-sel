@@ -13,7 +13,7 @@ export function ShoppingItems(): JSX.Element {
   const data = [
     {
       id: 1,
-      name: "Hamborgari",
+      name: "Margherita",
       price: 1200,
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse nisi augue, feugiat eget elit ac, commodo iaculis mi. Ut metus dui, lobortis et vestibulum eget, sollicitudin posuere urna.",
@@ -21,7 +21,7 @@ export function ShoppingItems(): JSX.Element {
     },
     {
       id: 2,
-      name: "Pizza",
+      name: "Pizza m/ pepperoni",
       price: 1250,
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse nisi augue, feugiat eget elit ac, commodo iaculis mi. Ut metus dui, lobortis et vestibulum eget, sollicitudin posuere urna.",
@@ -29,22 +29,22 @@ export function ShoppingItems(): JSX.Element {
     },
     {
       id: 3,
-      name: "Pizza m/ sveppum",
+      name: "Pizza m/ skinku og ananas",
       price: 1250,
       description: "Váá!",
       imgUri: "https://via.placeholder.com/150",
     },
     {
       id: 4,
-      name: "Pizza m/ skinu og ananas",
+      name: "Pizza m/ pepp og svepp",
       price: 1250,
       description: "Váá!",
       imgUri: "https://via.placeholder.com/150",
     },
     {
       id: 5,
-      name: "Pizza m/ pepperoni",
-      price: 1250,
+      name: "Þín pizza",
+      price: 1500,
       description: "Váá!",
       imgUri: "https://via.placeholder.com/150",
     },
@@ -70,6 +70,11 @@ export function ShoppingItems(): JSX.Element {
       <Center>
         <Heading as="h1" size="3xl" mb={[4, 6, 8]}>
           Matseðill
+        </Heading>
+      </Center>
+      <Center>
+        <Heading as="h2" size="2xl" mb={[2, 4, 6]}>
+          Pizzur
         </Heading>
       </Center>
       <SimpleGrid minChildWidth="22rem" gap={[4, 6, 8]}>
