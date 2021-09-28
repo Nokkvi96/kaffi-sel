@@ -7,9 +7,14 @@ import { dispatcherState } from "@recoil/atoms";
 import { createDispatcher, Dispatcher } from "@recoil/dispatcher";
 
 import Item from "./Item";
-import AddToCartModal from "../AddToCartModal";
+import AddToCartModal from "./AddToCartModal";
+import { ShoppingItem } from "src/types";
 
-export function ShoppingItems(): JSX.Element {
+interface IProps {
+  menu: Array<any>;
+}
+export function ShoppingItems({ menu }: IProps): JSX.Element {
+  console.log(menu);
   const data = [
     {
       id: 1,
@@ -67,21 +72,25 @@ export function ShoppingItems(): JSX.Element {
 
   return (
     <section>
-      <Center>
-        <Heading as="h1" size="3xl" mb={[4, 6, 8]}>
+      <Center mb={[2, 4, 6]}>
+        <Heading as="h1" size="3xl">
           Matseðill
         </Heading>
       </Center>
-      <Center>
-        <Heading as="h2" size="2xl" mb={[2, 4, 6]}>
-          Pizzur
-        </Heading>
-      </Center>
-      <SimpleGrid minChildWidth="22rem" gap={[4, 6, 8]}>
-        {data.map((d) => (
-          <Item key={d.id} parentCallback={callback} data={d} />
-        ))}
-      </SimpleGrid>
+      {menu.map((d) => (
+        <>
+          <Center my={[4, 6, 8]}>
+            <Heading as="h2" size="2xl">
+              {d[0].title}
+            </Heading>
+          </Center>
+          <SimpleGrid minChildWidth="22rem" gap={[4, 6, 8]}>
+            {d[1].map((item: ShoppingItem) => (
+              <Item key={item.id} parentCallback={callback} data={item} />
+            ))}
+          </SimpleGrid>
+        </>
+      ))}
       {isOpen && (
         <AddToCartModal data={selected} isOpen={isOpen} onClose={onClose} />
       )}

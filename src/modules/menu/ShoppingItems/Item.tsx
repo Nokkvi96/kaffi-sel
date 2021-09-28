@@ -50,7 +50,7 @@ export default function Item({ parentCallback, data }: IProps): any {
           {data.description}
         </Text>
         <Spacer />
-        <Button onClick={onClick} mt="auto">
+        <Button onClick={onClick} justifySelf="end">
           Bæta við í körfu
         </Button>
       </Flex>
