@@ -44,16 +44,16 @@ export default function Cart(): JSX.Element {
       >
         {!(unique > 0) ? "" : unique}
       </MenuButton>
-      <MenuList color="black">
+      <MenuList color="black" p={2} maxHeight="96" overflowY="scroll">
         {cart.map((c) => (
-          <MenuItem minH="3rem">
+          <MenuItem>
             <Flex
               direction="row"
               alignContent="center"
               justifyContent="space-between"
               width="100%"
             >
-              <Text textAlign="center" isTruncated>
+              <Text isTruncated>
                 {c.name} ({c.quantity}) <br /> {c.customerNote}
               </Text>
               <Button onClick={() => removeFromCart(c.id, c.customerNote)}>
