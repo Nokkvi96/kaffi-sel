@@ -14,7 +14,6 @@ interface IProps {
   menu: Array<any>;
 }
 export function ShoppingItems({ menu }: IProps): JSX.Element {
-  console.log(menu);
   const data = [
     {
       id: 1,

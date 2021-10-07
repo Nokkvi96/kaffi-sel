@@ -43,9 +43,6 @@ export const createDispatcher = () => {
             // condition gæti breyst eftir ID
             (c) => c.id === id && c.customerNote === note
           );
-          console.log(index);
-          console.log(oldCart.slice(0, index));
-          console.log(oldCart.slice(index + 1));
           if (index > -1) {
             return [...oldCart.slice(0, index), ...oldCart.slice(index + 1)];
           } else return oldCart;

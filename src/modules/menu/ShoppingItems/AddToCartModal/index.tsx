@@ -48,7 +48,6 @@ export default function AddToCartModal({
   const dispatcher = useRecoilValue(dispatcherState);
 
   function addToCart() {
-    console.log(note, quantity, price);
     dispatcher?.addToCart({
       id: data.id,
       name: data.name,

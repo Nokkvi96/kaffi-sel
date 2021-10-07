@@ -1,7 +1,6 @@
-import type { NextPage } from "next";
 import { useRecoilValue } from "recoil";
 
-import { Box, Button, Stack, Heading } from "@chakra-ui/react";
+import { Box, Button, Stack } from "@chakra-ui/react";
 
 import { dispatcherState } from "@recoil/atoms";
 import { CartItem } from "src/types";
@@ -10,7 +9,7 @@ interface IProps {
   cartItem: CartItem;
 }
 
-export function CheckoutCart({ cartItem }: IProps) {
+export default function CheckoutCartItem({ cartItem }: IProps) {
   const dispatcher = useRecoilValue(dispatcherState);
 
   const removeFromCart = (id: number, note: string) => {
