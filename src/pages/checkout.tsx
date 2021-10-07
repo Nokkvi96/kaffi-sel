@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
 import type { NextPage } from "next";
 import { useForm } from "react-hook-form";
-import { DevTool } from "@hookform/devtools";
+import { ErrorMessage } from "@hookform/error-message";
+// import { DevTool } from "@hookform/devtools";
+import * as yup from "yup";
 
 import { useRecoilValue, useRecoilState } from "recoil";
 import {
@@ -10,10 +11,8 @@ import {
   Container,
   Stack,
   VStack,
-  StackDivider,
   FormControl,
   FormLabel,
-  FormErrorMessage,
   Input,
 } from "@chakra-ui/react";
 import { whiten } from "@chakra-ui/theme-tools";
@@ -23,6 +22,9 @@ import { cartStatsState } from "@recoil/selectors";
 import { Header } from "@components";
 import { CheckoutCart } from "@modules/checkout";
 
+const schema = yup.object().shape({
+  name: yup.string().required(),
+});
 interface IFormInput {
   name: string;
   phoneNum: string;
@@ -41,7 +43,8 @@ export const Checkout: NextPage = () => {
     register,
     setValue,
     getValues,
-    formState: { errors, isSubmitting },
+    setFocus,
+    formState: { errors, isSubmitting, isDirty, isValid },
   } = useForm<IFormInput>({
     mode: "onChange",
     reValidateMode: "onChange",
@@ -59,13 +62,41 @@ export const Checkout: NextPage = () => {
   const [cart] = useRecoilState(cartState);
   const dispatcher = useRecoilValue(dispatcherState);
 
-  function formatCardNum(v: string) {
-    return v.replace(/(.{4})/g, "$1 ");
-    // card.num = card.num.replace(/(\d)(?=(\d\d\d\d)+(?!\d))/g, " ");
-  }
-
+  /**
+   * clears cart in dispatcher
+   */
   function clearCart() {
     dispatcher?.clearCart();
+  }
+
+  /**
+   * adds spacing every 4 numbers and sets focus to next input when card number is complete.
+   * @param v card number input
+   */
+  function handleCardNum(v: string) {
+    setValue(
+      "card.num",
+      v
+        .replace(/\s|[^0-9]+/g, "")
+        .match(/.{1,4}/g)
+        ?.join(" ") ?? ""
+    );
+    getValues("card.num").length >= 19 && setFocus("card.exp");
+  }
+
+  /**
+   * adds '/' between month and year e.g. '08/21' and sets focus to next input when input is complete.
+   * @param v card expiration input
+   */
+  function handleCardExp(v: string): void {
+    setValue(
+      "card.exp",
+      v
+        .replace(/\s|[^0-9]+/g, "")
+        .match(/.{1,2}/g)
+        ?.join("/") ?? ""
+    );
+    getValues("card.exp").length >= 5 && setFocus("card.cvv");
   }
 
   return (
@@ -75,31 +106,17 @@ export const Checkout: NextPage = () => {
         <section>
           <Container maxW="container.md">
             <VStack spacing={[4, 6, 8]}>
-              <Box
-                p={[2, 2, 4]}
-                border="2px"
-                borderColor="gray.400"
-                borderRadius="md"
-                w="100%"
-              >
-                <Stack
-                  directino="row"
-                  spacing={4}
-                  divider={<StackDivider borderColor="gray.300" />}
-                >
-                  {cart.map((c) => (
-                    <CheckoutCart cartItem={c} />
-                  ))}
-                </Stack>
-              </Box>
+              <CheckoutCart cart={cart} />
               <form
                 onSubmit={handleSubmit((data) => {
                   console.log(data);
                 })}
               >
-                <FormErrorMessage>
-                  {errors.name && errors.name.message}
-                </FormErrorMessage>
+                <ErrorMessage
+                  errors={errors}
+                  name="name"
+                  render={({ message }) => <p>{message}</p>}
+                />
                 <Stack maxW="md">
                   <FormControl id="cc-name" isRequired>
                     <FormLabel>Fullt nafn</FormLabel>
@@ -121,21 +138,25 @@ export const Checkout: NextPage = () => {
                     justify="space-between"
                   >
                     <Box width="50%">
-                      <FormControl id="cc-number">
+                      <FormControl id="cc-number" isRequired>
                         <FormLabel>Kortanúmer</FormLabel>
                         <Input
                           autoComplete="cc-number"
-                          placeholder="Kortanúmer"
                           {...register("card.num", {
                             required: true,
-                            // pattern: /^(\d{4} ){3}\d{4}$/i,
-                            setValueAs: (v: string) => formatCardNum(v),
+                            pattern: {
+                              value: /^(\d{4} ){3}\d{4}$/i,
+                              message:
+                                "Kortanúmer er á forminu xxxx xxxx xxxx xxxx",
+                            },
                           })}
+                          onChange={(e) => handleCardNum(e.target.value)}
+                          maxLength={19}
                         />
                       </FormControl>
                     </Box>
                     <Stack width="50%" direction="row">
-                      <FormControl id="cc-exp">
+                      <FormControl id="cc-exp" isRequired>
                         <FormLabel>Gildistími</FormLabel>
                         <Input
                           autoComplete="cc-exp"
@@ -143,19 +164,28 @@ export const Checkout: NextPage = () => {
                             required: true,
                             pattern: /^\d{2}\/\d{2}$/i,
                           })}
+                          onChange={(e) => handleCardExp(e.target.value)}
+                          maxLength={5}
                         />
                       </FormControl>
-                      <FormControl id="securitycode">
-                        <FormLabel>CVV</FormLabel>
+                      <FormControl id="securitycode" isRequired>
+                        <FormLabel>Öryggisnúmer</FormLabel>
                         <Input
                           type="number"
-                          maxLength={3}
                           autoComplete="cc-csc"
                           {...register("card.cvv", {
                             required: true,
-                            maxLength: { value: 3, message: "adeins 3 stafir" },
-                            pattern: /^\d{3}$/i,
+                            maxLength: {
+                              value: 3,
+                              message: "Öryggisnúmer er aðeins 3 stafir",
+                            },
+                            pattern: {
+                              value: /^\d{3}$/i,
+                              message:
+                                "Öryggisnúmer inniheldur aðeins tölustafi",
+                            },
                           })}
+                          maxLength={3}
                         />
                       </FormControl>
                     </Stack>
@@ -173,6 +203,7 @@ export const Checkout: NextPage = () => {
                       bgColor="primary"
                       color="white"
                       width="100%"
+                      disabled={!isDirty || !isValid}
                       _hover={{ bg: whiten("primary", 10) }}
                     >
                       Klára innkaup
@@ -183,7 +214,7 @@ export const Checkout: NextPage = () => {
             </VStack>
           </Container>
         </section>
-        <DevTool control={control} />
+        {/* <DevTool control={control} /> */}
       </main>
     </>
   );
