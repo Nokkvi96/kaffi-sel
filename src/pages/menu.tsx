@@ -12,6 +12,7 @@ const Menu: NextPage = (props) => {
       <main>
         <Container maxW="container.xl">
           <Stack direction="column" mt={[6, 8, 12]} spacing={[6, 8, 12]}>
+            {/* @ts-ignore */}
             <ShoppingItems menu={props.menu} />
           </Stack>
         </Container>
