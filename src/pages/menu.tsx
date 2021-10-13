@@ -5,7 +5,6 @@ import { Header } from "@components";
 import { ShoppingItems } from "@modules/menu";
 
 const Menu: NextPage = (props) => {
-  console.log(props);
   return (
     <>
       <Header />
@@ -23,7 +22,7 @@ const Menu: NextPage = (props) => {
 
 export async function getStaticProps() {
   // Call an external API endpoint to get posts
-  const res = await fetch("http://localhost:3000/api");
+  const res = await fetch("https://kaffi-sel.vercel.app/api");
   const menu = await res.json();
 
   return {
