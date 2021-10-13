@@ -23,7 +23,7 @@ const Menu: NextPage = (props) => {
 export async function getStaticProps() {
   // Call an external API endpoint to get posts
   // const res = await fetch("https://kaffi-sel.vercel.app/api");
-  const menu = res.status(200).json([
+  const menu = [
     [
       { title: "Pizza" },
       [
@@ -121,7 +121,7 @@ export async function getStaticProps() {
         },
       ],
     ],
-  ]);
+  ];
 
   return {
     props: {
